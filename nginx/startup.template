@@ -1,0 +1,35 @@
+server {
+    listen 127.0.0.1:${SNIKKET_TWEAK_HTTP_PORT};
+#    real_ip_header proxy_protocol;
+    listen [::1]:${SNIKKET_TWEAK_HTTP_PORT};
+
+    server_name ${SNIKKET_DOMAIN};
+    server_name groups.${SNIKKET_DOMAIN};
+    server_name share.${SNIKKET_DOMAIN};
+
+    location /.well-known/acme-challenge {
+        alias /var/www/html/.well-known/acme-challenge;
+    }
+
+    root /var/www/html;
+
+    error_page 404 /_errors/404.html;
+}
+
+# Fail requests to unknown domains
+server {
+    listen 127.0.0.1:${SNIKKET_TWEAK_HTTP_PORT};
+#    real_ip_header proxy_protocol;
+    listen [::1]:${SNIKKET_TWEAK_HTTP_PORT};
+
+    error_page 404 /_errors/404_site.html;
+
+    location = /_errors/404_site.html {
+        root /var/www/html;
+        internal;
+    }
+
+    location / {
+        try_files none =404;
+    }
+}
