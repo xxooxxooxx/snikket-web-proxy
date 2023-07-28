@@ -9,3 +9,5 @@ vi /etc/nginx/nginx.conf
 
 %s/example.com/your.com/g
 ```
+
+https://github.com/SaraSmiseth/prosody/blob/dev/readme.md
