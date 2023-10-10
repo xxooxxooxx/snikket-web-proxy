@@ -108,7 +108,7 @@ Protocol	PORT
 TCP	32355-65535, 3478-3479
 UDP	32355-65535, 3478-3479
 ```
-
+https://github.com/coturn/coturn/wiki/turnserver  
 ```
 # TURN Server public/private address mapping, if the server is behind NAT.
 # In that situation, if a -X is used in form "-X <ip>" then that ip will be reported
