@@ -100,3 +100,38 @@ udp        0      0 0 0.0.0.0:5349      0.0.0.0:*                           1109
 
       反代并在运行在隧道内
 ```
+```
+Firewall rules settings
+The port used by the TURN server needs to be public, so add the following settings to the firewall.
+
+Protocol	PORT
+TCP	32355-65535, 3478-3479
+UDP	32355-65535, 3478-3479
+```
+
+```
+# TURN Server public/private address mapping, if the server is behind NAT.
+# In that situation, if a -X is used in form "-X <ip>" then that ip will be reported
+# as relay IP address of all allocations. This scenario works only in a simple case
+# when one single relay address is be used, and no RFC5780 functionality is required.
+# That single relay address must be mapped by NAT to the 'external' IP.
+# The "external-ip" value, if not empty, is returned in XOR-RELAYED-ADDRESS field.
+# For that 'external' IP, NAT must forward ports directly (relayed port 12345
+# must be always mapped to the same 'external' port 12345).
+#
+# In more complex case when more than one IP address is involved,
+# that option must be used several times, each entry must
+# have form "-X <public-ip/private-ip>", to map all involved addresses.
+# RFC5780 NAT discovery STUN functionality will work correctly,
+# if the addresses are mapped properly, even when the TURN server itself
+# is behind A NAT.
+#
+# By default, this value is empty, and no address mapping is used.
+#
+#external-ip=60.70.80.91
+#
+#OR:
+#
+#external-ip=60.70.80.91/172.17.19.101
+#external-ip=60.70.80.92/172.17.19.102
+```
