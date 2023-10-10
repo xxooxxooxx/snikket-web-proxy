@@ -136,3 +136,33 @@ https://github.com/coturn/coturn/wiki/turnserver
 #external-ip=60.70.80.92/172.17.19.102
 ```
 https://github.com/snikket-im/snikket-server/blob/master/ansible/files/bin/snikket-turn-addresses  
+```
+#!/usr/bin/env lua
+
+package.loaded["prosody.net.server"] = require "prosody.net.server_epoll";
+
+local net = require "prosody.util.net";
+local ip = require "prosody.util.ip";
+local dns = require "prosody.net.unbound".dns;
+
+local host_name = assert(arg[1], "no domain specified");
+local addresses = net.local_addresses();
+
+local ip_addr = ip.new_ip(addresses[1]);
+
+if not ip_addr.private then
+	-- Not a private address, no mapping needed
+	print(ip_addr);
+	os.exit(0)
+end
+
+local dns_record = dns.lookup(host_name, ip_addr.proto == "IPv6" and "AAAA" or "A")
+if not dns_record or #dns_record == 0 then
+	io.stderr:write(("ERROR: No external address found for %s on %s\n"):format(ip_addr.proto, host_name));
+	os.exit(1);
+end
+
+local external_ip = assert(dns_record[1].a or dns_record[1].aaaa, "Unable to resolve external IP from DNS");
+-- print(external_ip.."/"..tostring(ip_addr));
+print(external_ip);
+```
