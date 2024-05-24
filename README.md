@@ -20,7 +20,7 @@ https://github.com/SaraSmiseth/prosody/blob/dev/readme.md
 The following ports are exposed:
 
 5000: proxy65 port used for file sharing
-5222: c2s port (client to server)
+5222: c2s port (client to server STARTTLS)
 5223: c2s legacy ssl port (client to server)
 5269: s2s port (server to server)
 5347: XMPP component port
